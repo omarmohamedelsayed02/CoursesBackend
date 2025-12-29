@@ -27,7 +27,13 @@ app.use((error , req, res , next) => {
         return res.status(error.statusCode || 500).json({status : error.statusText || httpStatus.ERROR , message :error.message ,  code : error.statusCode || 500 , data :null})
 });
 
-// Server
-app.listen(process.env.PORT, () => {
-  console.log(`Server is running on port ${process.env.PORT}`);
+// Root route (Health Check)
+app.get('/', (req, res) => {
+  res.status(200).send('API is running 🚀');
+});
+/// Server
+const PORT = process.env.PORT || 6001;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
