@@ -4,9 +4,7 @@ import httpStatus from "../utils/httpStatus.js";
 import express from "express";
 import appERROR from '../utils/appERROR.js';
 import bcrypt from "bcryptjs";
-import jwt from 'jsonwebtoken'
-import JWT from "../utils/genrateJWT.js";
-import multer from "multer";
+import JWT from "../utils/generateJWT.js";
 
 
 
