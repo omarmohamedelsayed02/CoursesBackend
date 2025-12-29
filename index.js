@@ -3,9 +3,10 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import coursesRoutes from './routes/courses.js';
-import usersRoutes from './routes/usersRoutes.js'
+import usersRoutes from './routes/usersRoutes.js';
 import httpStatus from './utils/httpStatus.js';
 import cors from 'cors';
+
 dotenv.config();
 
 const app = express();
@@ -23,17 +24,24 @@ mongoose.connect(process.env.MONGO_URL)
 app.use('/api/courses', coursesRoutes);
 app.use('/api/users', usersRoutes);
 
-app.use((error , req, res , next) => {
-        return res.status(error.statusCode || 500).json({status : error.statusText || httpStatus.ERROR , message :error.message ,  code : error.statusCode || 500 , data :null})
-});
-
-// Root route (Health Check)
+// Health Check Route (مهم جدًا)
 app.get('/', (req, res) => {
   res.status(200).send('API is running 🚀');
 });
-/// Server
-const PORT = process.env.PORT || 8000;
 
-app.listen(PORT, () => {
+// Global Error Handler
+app.use((error, req, res, next) => {
+  return res.status(error.statusCode || 500).json({
+    status: error.statusText || httpStatus.ERROR,
+    message: error.message,
+    code: error.statusCode || 500,
+    data: null
+  });
+});
+
+// Server
+const PORT = process.env.PORT;
+
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on port ${PORT}`);
 });
